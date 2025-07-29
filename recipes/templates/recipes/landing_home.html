@@ -1,0 +1,18 @@
+<!-- templates/recipes/landing_home.html -->
+{% extends "recipes/base.html" %}
+
+{% block content %}
+<div class="container my-5 text-center">
+  <h1 class="mb-4">Welcome to the Moon's Recipe Site</h1>
+
+  <div class="list-group">
+    <b><a href="{% url 'recipes-home' %}" class="list-group-item list-group-item-action">Recipes</a></b>
+    <b><a href="{% url 'recipes-create' %}" class="list-group-item list-group-item-action">Add Recipe</a></b>
+    <b><a href="{% url 'recipes-category' 'main' %}" class="list-group-item list-group-item-action">Main Dishes</a></b>
+    <b><a href="{% url 'recipes-category' 'side' %}" class="list-group-item list-group-item-action">Side Dishes</a></b>
+    <b><a href="{% url 'recipes-category' 'dessert' %}" class="list-group-item list-group-item-action">Desserts</a></b>
+    <b><a href="{% url 'recipes-category' 'breakfast' %}" class="list-group-item list-group-item-action">Breakfast</a></b>
+    <b><a href="{% url 'recipes-category' 'snack' %}" class="list-group-item list-group-item-action">Snacks</a></b>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% if title %}
+    <title>Django Recipes - {{title}}</title>
+    {% else %}
+    <title>Django Recipes</title>
+    {% endif %}
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+   <style>
+      .offcanvas-body .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 5px;
+      }
+
+      .offcanvas-title {
+        font-weight: bold;
+      }
+
+      .offcanvas .nav-item {
+        margin-bottom: 0.3rem;
+      }
+      .navbar-nav .nav-link {
+    color: #007bff; /* Bootstrap primary blue */
+    font-weight: 500;
+    }
+
+    .navbar-nav .nav-link:hover {
+    color: #0056b3; /* Darker blue on hover */
+    text-decoration: underline;
+    }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <!-- Drawer toggle button -->
+        <button
+          class="btn btn-outline-light me-2"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#recipeDrawer"
+          aria-controls="recipeDrawer"
+        >
+          ☰ Categories
+        </button>
+
+        <!-- Brand -->
+        <a class="navbar-brand" href="{% url 'home' %}">Moon's Recipe Site</a>
+
+        <!-- Main nav links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'recipes-home' %}">Recipes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'recipes-about' %}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'recipes-create' %}">Add Recipe</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'recipes-search' %}">Recipe Search</a>
+            </li>
+          </ul>
+
+          <!-- Auth controls -->
+          <div class="navbar-nav">
+            {% if user.is_authenticated %}
+              <a class="nav-item nav-link" href="{% url 'user-profile' %}">My Profile</a>
+              <form method="POST" action="{% url 'user-logout' %}" class="d-inline">
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="btn btn-link nav-link"
+                  style="padding: 0; border: none; background: none"
+                >
+                  Logout
+                </button>
+              </form>
+            {% else %}
+              <a class="nav-item nav-link" href="{% url 'user-login' %}">Login</a>
+              <a class="nav-item nav-link" href="{% url 'user-register' %}">Register</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Offcanvas Drawer (move it OUTSIDE nav!) -->
+    <div
+      class="offcanvas offcanvas-start text-bg-dark"
+      tabindex="-1"
+      id="recipeDrawer"
+      aria-labelledby="recipeDrawerLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="recipeDrawerLabel">Recipe Categories</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'recipes-search' %}">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'recipes-create' %}">Add Recipe</a>
+          </li>
+          <hr class="bg-secondary" />
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'recipes-category' 'main' %}">Main Dishes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'recipes-category' 'side' %}">Side Dishes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'recipes-category' 'dessert' %}">Desserts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'recipes-category' 'breakfast' %}">Breakfast</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'recipes-category' 'snack' %}">Snacks</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Main Content -->
+<main class="container mt-4">
+  {% block content %}
+  {% endblock %}
+</main>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+      integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
+      integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
+
