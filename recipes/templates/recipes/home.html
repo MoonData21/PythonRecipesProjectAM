@@ -8,6 +8,10 @@
   <div class="card-body">
     <h5 class="card-title">{{ recipe.title }}</h5>
     <h6 class="card-subtitle mb-2 text-muted">{{ recipe.author }}</h6>
+    <h6 class="card-subtitle mb-2 text-muted">
+      Category: 
+      <a href="{% url 'recipes-category' recipe.category %}">{{ recipe.category }}</a>
+    </h6>
     <p class="card-text">{{ recipe.description }}</p>
     <h6 class="card-subtitle mb-2 text-muted">
       {{ recipe.updated_at|date:"F d, Y" }}
